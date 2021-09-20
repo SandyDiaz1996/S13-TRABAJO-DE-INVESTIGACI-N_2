@@ -1,5 +1,5 @@
 # S13-TRABAJO-DE-INVESTIGACI-N_2
-                                (MENÚ PRINCIPAL)
+                        (MENÚ PRINCIPAL)
 
 ![image](https://user-images.githubusercontent.com/85755698/133950821-3fc96231-bb34-4c8e-9fa7-3ac2c0078942.png)
 
