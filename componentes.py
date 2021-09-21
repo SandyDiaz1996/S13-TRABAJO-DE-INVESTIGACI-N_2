@@ -56,7 +56,7 @@ class Valida:
     def solo_decimales(self,mensajeError,col,fil):
         while True:
             gotoxy(col,fil) 
-            valor = str(input())
+            valor = input()
             try:
                 valor = float(valor)
                 if valor > float(0):
@@ -65,6 +65,39 @@ class Valida:
                 gotoxy(col, fil);print("          ------><  | {} ".format(mensajeError))
                 time.sleep(1)
                 gotoxy(col, fil);print(" "*50)
+        return valor
+    
+    def solo_boleanos(self,mensajeError,col,fil):
+        while True:
+            gotoxy(col,fil) 
+            valor = input()
+            try:
+                if valor.isnumeric():
+                    if valor == 0 or valor == 1:
+                        break
+                    else:
+                        gotoxy(col, fil);print("Solo se aceptan: [0] o [1]")
+                        time.sleep(1)
+                        gotoxy(col, fil);print(" "*32)
+                
+                elif valor.isalpha():
+                    if valor == "True" or valor == "False":
+                        break
+
+                    else:
+                        gotoxy(col, fil);print("Solo se aceptan: [True] o [False]")
+                        time.sleep(1)
+                        gotoxy(col, fil);print(" "*33)
+                
+                else:
+                    gotoxy(col, fil);print("------><  | {} ".format(mensajeError))
+                    time.sleep(1)
+                    gotoxy(col, fil);print(" "*32)
+
+            except:
+                gotoxy(col, fil);print("------><  | {} ".format(mensajeError))
+                time.sleep(1)
+                gotoxy(col, fil);print(" "*32)
         return valor
     
     def validar_cedula(self,mensajeError,col,fil):
@@ -89,19 +122,15 @@ class Valida:
         while True:
             gotoxy(col,fil) 
             valor = input()
-            if valor.isnumeric():
-                l = len(valor)
-                if l == 14:
-                        break
-                else:
-                    gotoxy(col, fil);print("------>< | {} ".format(mensajeError))
-                    time.sleep(1)
-                    gotoxy(col, fil);print(" "*38)
+            l = len(valor)
+            if l == 14:
+                break
             else:
-                gotoxy(col,fil);print("Solo números")
+                gotoxy(col, fil);print("------>< | {} ".format(mensajeError))
                 time.sleep(1)
                 gotoxy(col, fil);print(" "*38)
-        return valor
+           
+            return valor
     
     def validar_tel(self,mensajeError,col,fil):
         while True: 
@@ -125,7 +154,42 @@ class Valida:
                 time.sleep(1)
                 gotoxy(col, fil);print(" "*38)
         return valor
-    def validar_fecha(self,mensajeError,col,fil):
+    
+    def validar_rol(self,mensajeError,col,fil):
+        while True:
+            gotoxy(col,fil) 
+            valor = str(input())
+            if valor.isalpha():
+                if valor == "A" or valor == "O":
+                    break
+
+                else: 
+                    gotoxy(col,fil);print("{} ".format(mensajeError))
+                    time.sleep(1)
+                    gotoxy(col, fil);print(" "*23)
+                    
+            else:
+                gotoxy(col,fil);print("Solo letras")
+                time.sleep(1)
+                gotoxy(col, fil);print(" "*23)
+        return valor
+
+        
+    """def validar_fecha(self,mensajeError,col,fil):
+        while True:
+            try:
+                gotoxy(col, fil)            
+                valor = input()
+                datetime.strptime(valor, '%Y-%m-%d')
+                break
+
+            except:
+                gotoxy(col, fil);print("------><  | {} ".format(mensajeError))
+                time.sleep(1)
+                gotoxy(col, fil);print(" "*32)"""
+
+
+    """def validar_fecha(self,mensajeError,col,fil):
         while True: 
             gotoxy(col, fil)            
             valor = input()
@@ -134,4 +198,4 @@ class Valida:
             else:
                 gotoxy(col,fil);print("------> | {} ".format(mensajeError)) 
                 time.sleep(1)
-                gotoxy(col, fil);print(" "*38)
+                gotoxy(col, fil);print(" "*38)"""

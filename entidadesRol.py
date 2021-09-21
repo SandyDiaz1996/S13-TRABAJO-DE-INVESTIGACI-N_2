@@ -19,6 +19,9 @@ class Empresa:
         - Dirección : {} 
         - Teléfono: {}'''.format(self.razonSocial,self.ruc, 
                                      self.direccion, self.telefono))
+    
+    def getEmpresa(self):
+        return  [self.razonSocial, self.ruc,self.direccion, self.telefono]
        
 class Departamento:
     def __init__(self, descripcion,id=1):

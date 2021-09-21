@@ -83,7 +83,7 @@ def empAdministrativos():
     gotoxy(33, 10);telefono = validar.validar_tel("ERROR: Teléfono Incorrecto", 33, 10)
     gotoxy(33, 11);fechaIngreso = input()
     gotoxy(33, 12);sueldo = validar.solo_decimales("Error: Solo números", 33, 12)
-    gotoxy(33, 13);comision = input()
+    gotoxy(33, 13);comision = validar.solo_boleanos("Error: Solo boleanos", 33, 13)
     gotoxy(15, 15);print("-->Esta seguro de Grabar El registro(s/n):")
     gotoxy(57, 15);grabar = input().lower()
     if grabar == "s":
@@ -178,7 +178,7 @@ def empObreros():
     gotoxy(33, 10);telefono = validar.validar_tel("ERROR: Teléfono Incorrecto", 33, 10)
     gotoxy(33, 11);fechaIngreso = input()
     gotoxy(33, 12);sueldo = validar.solo_decimales("Error: Agregar un (.) luego del número entero", 33, 12)
-    gotoxy(33, 13);cc = input()
+    gotoxy(33, 13);cc = validar.solo_boleanos("Error: Solo boleanos", 33, 13)
     gotoxy(15, 15);print("-->Esta seguro de Grabar El registro(s/n):")
     gotoxy(57, 15);grabar = input().lower()
     if grabar == "s":
@@ -270,7 +270,7 @@ def empresa():
     borrarPantalla()
     validar = Valida()
     gotoxy(15, 1);print(Fore.LIGHTCYAN_EX + "**********************************************************")
-    gotoxy(20, 2);print("*                  MANTENIMIENTO EMPRESA                  *")
+    gotoxy(15, 2);print("*                 MANTENIMIENTO EMPRESA                  *")
     gotoxy(15, 3);print(Fore.LIGHTCYAN_EX + "**********************************************************")
     gotoxy(15, 4);print("*")
     gotoxy(17, 4);print("Razón Social   : ")
@@ -286,21 +286,24 @@ def empresa():
     gotoxy(72, 7);print("*")
     gotoxy(15, 8);print(Fore.LIGHTCYAN_EX + "**********************************************************")
 
-    gotoxy(33, 4);n_empresa = validar.solo_letras("Error: Solo Letras", 37, 4)
-    gotoxy(33, 5);direccion = validar.solo_letras("Error: Solo Letras", 37, 5)
-    gotoxy(33, 6);telefono = validar.validar_tel("ERROR: Teléfono Incorrecto", 33, 6)
-    gotoxy(33, 7);ruc = validar.validar_ruc("ERROR: Ruc Incorrecto", 33, 7)
-    gotoxy(15, 9);print("-->Esta seguro de Grabar El registro(s/n):")
-    gotoxy(57, 9);grabar = input().lower()
+    """gotoxy(33, 4);n_empresa = validar.solo_letras("Error: Solo Letras", 37, 4)
+    gotoxy(33, 5);direccion = validar.solo_letras("Error: Solo Letras", 37, 5)"""
+    gotoxy(37, 4);n_empresa = input()
+    gotoxy(37, 5);direccion = input()
+    gotoxy(33, 6);telefono = validar.validar_tel("ERROR: Teléfono Incorrecto", 37, 6)
+    gotoxy(33, 7);ruc = validar.validar_ruc("ERROR: Ruc Incorrecto", 37, 7)
+    gotoxy(15, 9);print("-->Esta seguro de Guardar El registro(s/n):")
+    gotoxy(60, 9);grabar = input().lower()
     if grabar == "s":
         archiEmpresa = Archivo("./archivos/empresa.txt", "|")
+        ruc = str(ruc) + "001"
         empresa = Empresa(n_empresa, direccion, telefono, ruc)
         datos = empresa.getEmpresa()
         datos = '|'.join(datos)
         archiEmpresa.escribir([datos], "a")
-        gotoxy(15, 8);input("Registro de Empresa Grabado Satisfactoriamente\n              Presione una tecla para continuar...")
+        gotoxy(15, 10);input("Registro de Empresa Grabado Satisfactoriamente\n              Presione una tecla para continuar...")
     else:
-        gotoxy(15, 8);input("Registro No fue Grabado\n              presione una tecla para continuar...")
+        gotoxy(15, 10);input("Registro No fue Grabado\n              presione una tecla para continuar...")
 
 def parametros():
     borrarPantalla()  
@@ -424,9 +427,9 @@ def prestamos():
     empleado, entEmpleado = [], None
     aamm, valor, n_pagos,  = 0, 0, 0
     
-    rol = validar.solo_letras("ERROR: Solo letras", 45, 5)
+    rol = validar.validar_rol("Solo ingreso de [A]-[O]", 45, 5)
     gotoxy(31, 6);id = input().upper()
-    
+
     while not empleado:
         if rol == "A":
             archiEmpleado = Archivo("./archivos/administrativo.txt", "|")
@@ -485,17 +488,14 @@ def rolAdministrativo():
     gotoxy(15, 2);print(Fore.LIGHTGREEN_EX + "**********************************************************")
     gotoxy(15, 3);print("*                  ROL ADMINISTRATIVO                   *")
     gotoxy(15, 4);print(Fore.LIGHTGREEN_EX + "**********************************************************")
-    gotoxy(15, 7);print(Fore.LIGHTGREEN_EX + "**********************************************************")
     gotoxy(15, 5);print("*")
+    gotoxy(17, 5);print("Periodo [aaaamm]")
     gotoxy(72, 5);print("*")
-    gotoxy(15, 6);print("*")
-    gotoxy(17, 6);print("Periodo [aaaamm]")
-    gotoxy(72, 6);print("*")
-    gotoxy(26, 7);aamm = validar.solo_numeros("Error: Solo numeros", 26, 6)
-    gotoxy(15, 7);
-    print("Esta seguro de Procesar el Rol(s/n):")
-    gotoxy(54, 7);
-    grabar = input().lower()
+    gotoxy(15, 6);print(Fore.LIGHTGREEN_EX + "**********************************************************")
+
+    gotoxy(26, 5);aamm = validar.solo_numeros("Error: Solo numeros", 26, 5)
+    gotoxy(15, 7);print("Esta seguro de Procesar el Rol(s/n):")
+    gotoxy(54, 7);grabar = input().lower()
     entEmpAdm = None
     # Se procesa el rol con la confirmacion del usuario
     if grabar == "s":
@@ -543,62 +543,53 @@ def rolAdministrativo():
 
 def rolObrero():
     borrarPantalla()
-    # Se ingresa los datos del rol a procesar
-    gotoxy(20, 2);
-    print("ROL OBRERO")
-    aamm = 0
-    gotoxy(15, 6);
-    print("Periodo  [aaaamm]")
+    # Se ingresa los datos del rol a procesar     
+    gotoxy(20,2);print("ROL OBRERO")
+    aamm=0
+    gotoxy(15,6);print("Periodo[aaaamm]")
     validar = Valida()
-    aamm = validar.solo_numeros("Error: Solo numeros", 25, 6)
-    gotoxy(15, 7);
-    print("Esta seguro de Procesar el Rol(s/n):")
-    gotoxy(54, 7);
-    grabar = input().lower()
+    aamm=validar.solo_numeros("Error: Solo numeros",23,6)
+    gotoxy(15,7);print("Esta seguro de Procesar el Rol(s/n):")
+    gotoxy(54,7);grabar = input().lower()
     entEmpObr = None
     # Se procesa el rol con la confirmacion del usuario
     if grabar == "s":
         # Obtener lista de empleados a procesar el rol
-        archiEmp = Archivo("./archivos/obrero.txt", "|")
+        archiEmp = Archivo("./archivos/obrero.txt","|")
         ListaEmpObr = archiEmp.leer()
-        if ListaEmpObr:
-            archiEmpresa = Archivo("./archivos/empresa.txt", "|")
+        if ListaEmpObr : 
+            archiEmpresa = Archivo("./archivos/empresa.txt","|")
             empresa = archiEmpresa.leer()[0]
-            entEmpresa = Empresa(empresa[0], empresa[1], empresa[2], empresa[3])
-            archiDeducciones = Archivo("./archivos/deducciones.txt", "|")
+            entEmpresa = Empresa(empresa[0],empresa[1],empresa[2],empresa[3])
+            archiDeducciones = Archivo("./archivos/deducciones.txt","|")
             deducciones = archiDeducciones.leer()[0]
-            entDeduccion = Deduccion(float(deducciones[0]), float(deducciones[1]), float(deducciones[2]))
-            # print(entDeduccion.getIess(),entDeduccion.getComision(),entDeduccion.getAntiguedad())
-            nomina = Nomina(date.today(), aamm)
+            entDeduccion = Deduccion(float(deducciones[0]),float(deducciones[1]),float(deducciones[2]))
+            #print(entDeduccion.getIess(),entDeduccion.getComision(),entDeduccion.getAntiguedad())
+            nomina = Nomina(date.today(),aamm)
             for empleado in ListaEmpObr:
-                entEmpObr = Obrero(empleado[1], empleado[2], empleado[3], empleado[4], empleado[5], empleado[6], empleado[7], 
-                float(empleado[8]), empleado[0])
-                nomina.calcularNominaDetalle(entEmpObr, entDeduccion)
+              #print(empleado)
+              entEmpObr = Obrero(empleado[1],empleado[2],empleado[3],empleado[4],empleado[5],empleado[6],int(empleado[7][:4]),float(empleado[8]),empleado[0]) 
+              nomina.calcularNominaDetalle(entEmpObr,entDeduccion)
             # grabar cabecera del rol
             datosCab = nomina.getNomina()
             datosCab = '|'.join(datosCab)
-            archiRol = Archivo("./archivos/rolCabObr.txt", "|")
-            archiRol.escribir([datosCab], "a")
+            archiRol = Archivo("./archivos/rolCabObre.txt","|")
+            archiRol.escribir([datosCab],"a")
             # grabar detalle del rol
-            archiDet = Archivo("./archivos/rolDetObr.txt", "|")
+            archiDet = Archivo("./archivos/rolDetObre.txt","|")
             datosDet = nomina.getDetalle()
             # se graba en el detalle empleado por empleado           
-            for dt in datosDet:
-                dt = nomina.aamm + '|' + '|'.join(dt)
-                archiDet.escribir([dt], "a")
+            for dt in datosDet: 
+                dt = nomina.aamm+'|'+'|'.join(dt)
+                archiDet.escribir([dt],"a")
             # imprimir rol
-
-            nomina.mostrarCabeceraNomina(entEmpresa.razonSocial, entEmpresa.direccion, entEmpresa.telefono,
-                                         entEmpresa.ruc, "O B R E R O S")
+            nomina.mostrarCabeceraNomina(entEmpresa.razonSocial,entEmpresa.direccion,entEmpresa.telefono,entEmpresa.ruc,"O B R E R O S")
             nomina.mostrarDetalleNomina()
-        else:
-            pass
-
+    
     else:
-        gotoxy(10, 10);
-        input("Rol No fue Procesado\n              presione una tecla para continuar...")
+        gotoxy(10,10);input("Rol No fue Procesado\n presione una tecla para continuar...")     
 
-    input("              Presione una tecla continuar...")
+    input("               Presione una tecla continuar...")  
 
 def consultaRol():
     borrarPantalla()
